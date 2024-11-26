@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RangeDatePicker } from "react-google-flight-datepicker";
 import "react-google-flight-datepicker/dist/main.css";
 
-const RoundtripDatePicker = () => {
+const RoundtripDatePicker = ({ changeDate }) => {
   const [selectedDates, setSelectedDates] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -10,6 +10,7 @@ const RoundtripDatePicker = () => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
+    changeDate(startDate, endDate)
   };
 
   return (

@@ -3,7 +3,7 @@ import { SingleDatePicker } from "react-google-flight-datepicker";
 
 import "react-google-flight-datepicker/dist/main.css";
 
-const OnewayDatepicker = () => {
+const OnewayDatepicker = ({ changeDate }) => {
   const [selectedDates, setSelectedDates] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -11,6 +11,7 @@ const OnewayDatepicker = () => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
+    changeDate(startDate)
   };
 
   return (

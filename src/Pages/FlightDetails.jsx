@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaChevronDown,
   FaChevronUp,
@@ -10,14 +10,60 @@ import {
   FaSortAmountDown,
 } from "react-icons/fa";
 import { MdAirlineSeatReclineNormal } from "react-icons/md";
-
+import axios from 'axios';
+import { useLocation } from "react-router-dom";
+import { getFlightDetails } from "../utils/getData";
 const FlightDetails = () => {
   const [expandedFlight, setExpandedFlight] = useState(null);
-
+  const [state, setState] = useState(null);
+  const location = useLocation();
+  
   const toggleFlight = (index) => {
     setExpandedFlight(expandedFlight === index ? null : index);
   };
+  const [kFlights, setFlights] = useState(null);
+  useEffect(function(){
 
+    let search = new URLSearchParams(location.search);
+  
+    let trip = search.get('trip');
+    let flightClass = search.get('flightClass');
+    let passenger = JSON.parse(search.get('passenger'));
+    let date = JSON.parse(search.get('date'));
+    let city = JSON.parse(search.get('city'));
+   
+    setState({trip, flightClass,passenger, date, city});
+    console.log(state)
+  },[location])
+  useEffect(function(){
+    state && (async () => {
+      let {trip, flightClass,passenger, date, city} = state;
+      const kPassenger = Object.fromEntries(Object.entries(passenger).filter(val => val[1] > 0));
+      console.log(kPassenger)
+      let data = await getFlightDetails(city.from, city.to, date.from, date.to,flightClass.replace(' ', '_').toLowerCase(),`&${kPassenger.infants ? 'infants='+kPassenger.infants : ''}&${kPassenger.children ? 'children='+kPassenger.children: ''}&${kPassenger.adults ? 'adults=' + kPassenger.adults : ''}`)
+      setFlights(data.data.itineraries.map(val => {
+        return {
+          airline: val.legs[0].carriers.marketing[0].name,
+          logo: val.legs[0].carriers.marketing[0].logoUrl,
+          departure: val.legs[0].departure,
+          arrival: val.legs[0].departure,
+          from: val.legs[0].origin.name,
+          to: val.legs[0].destination.name,
+          price: val.price.formatted,
+          segments: val.legs.map(leg => {
+            return {
+              departure: leg.departure,
+              arrival:leg.arrival ,
+              from:leg.origin.name,
+              to: leg.destination.name,
+              duration: leg.durationInMinutes,
+              //aircraft: leg.operatingCareer.name,
+            }
+          })
+        }
+      }))
+    })()
+  }, [state])
   const flights = [
     {
       airline: "SAS",
@@ -122,7 +168,7 @@ const FlightDetails = () => {
       </div>
 
       <div className="space-y-4">
-        {flights.map((flight, index) => (
+        {kFlights && kFlights.map((flight, index) => (
           <div key={index} className="border rounded-lg shadow-sm">
             <div
               className="p-4 cursor-pointer hover:bg-gray-50"
@@ -131,7 +177,7 @@ const FlightDetails = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center">
-                    {flight.logo}
+                    <img src={`${flight.logo}`} />
                   </div>
                   <div>
                     <div className="flex items-center gap-4">
@@ -173,7 +219,7 @@ const FlightDetails = () => {
                         <div className="text-sm text-gray-600">
                           {segment.aircraft} · {segment.flightNumber}
                         </div>
-                      </div>
+                      </div>{/*
                       <div className="space-y-1">
                         {segment.amenities.map((amenity, aIndex) => (
                           <div
@@ -192,7 +238,7 @@ const FlightDetails = () => {
                           <FaLeaf />
                           Emissions estimate: {segment.emissions}
                         </div>
-                      </div>
+                      </div>*/}
                     </div>
 
                     {flight.layover && segIndex === 0 && (

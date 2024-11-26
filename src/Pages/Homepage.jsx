@@ -13,27 +13,77 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Homepage = () => {
+  /* 
+  multi city = 1,
+  one way = 2,
+  round trip = 3 */
   const [selectedOption, setSelectedOption] = useState("Multi-city");
+  const [trip, setTrip] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [flightClass, setFlightClass] = useState('business');
+  const [city, changeCity] = useState({
+    from: null,
+    to: null
+  })
+  const [date, setDate] = useState({
+    from: new Date(),
+    to: null
+  })
+  const [passenger, setPassenger] = useState({
+    adults: 1,
+    children: 0,
+    infants: 0
+  })
   const options = ["Round trip", "One way", "Multi-city"];
 
+  const updatePassenger = (val) => {
+    setPassenger(val)
+  }
+  const updateClass = (val) => {
+    setFlightClass(val)
+  }
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
   };
-
+  const updateCity = (option) => {
+    changeCity(option)
+  }
+  const handleTrip = val => {
+    if(val != trip){
+      setTrip(val)
+    }
+  }
+  const changeDate = (from, to) => {
+    if(!to)
+      return setDate({from});
+    return setDate({ from, to });
+  }
+  const validate = () => {
+    if(!trip) return false;
+    if(!city.from || !city.to) return false;
+    if(trip === 3 && !date.to) return false;
+    if(!date.from) return false;
+    if(passenger.adults == 0 && passenger.children == 0 && passenger.infants == 0) return false;
+    if(!flightClass) return false;
+    return true
+  }
   // Function to render the appropriate filter component
   const renderFilterComponent = () => {
     switch (selectedOption) {
       case "Multi-city":
-        return <MultiCityFilters />;
+       handleTrip(1);
+        return <MultiCityFilters changeDate={changeDate} changeCity={updateCity}/>;
+       
       case "One way":
-        return <OneWayFilter />;
+        handleTrip(2)
+        return <OneWayFilter changeDate={changeDate} changeCity={updateCity}/>;
       case "Round trip":
-        return <RoundtripFilter />;
+       handleTrip(3);
+        return <RoundtripFilter changeDate={changeDate} chanegCity={updateCity}/>;
       default:
-        return <MultiCityFilters />;
+        handleTrip(1);
+        return <MultiCityFilters changeDate={changeDate} changeCity={updateCity}/>;
     }
   };
 
@@ -76,15 +126,16 @@ const Homepage = () => {
               </ul>
             )}
           </div>
-          <PassengerSelector />
-          <ClassSelector />
+          <PassengerSelector updatePassenger={updatePassenger}/>
+          <ClassSelector  updateClass={updateClass} />
         </div>
 
         {/* Render the appropriate filter component based on selection */}
         {renderFilterComponent()}
-        <Link to="/FlightDetails">
+        {validate() && <Link to={`/FlightDetails?trip=${trip}&flightClass=${flightClass}&passenger=${JSON.stringify(passenger)}&date=${JSON.stringify(date)}&city=${JSON.stringify(city)}`}>
           <button
             type="submit"
+            onClick={() => { console.log(trip, flightClass, passenger, date, city)}}
             className="flex justify-center gap-2 items-center mx-auto shadow-xl text-lg bg-gray-50 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-4 py-2 overflow-hidden border-2 rounded-full group"
           >
             Search
@@ -99,7 +150,7 @@ const Homepage = () => {
               ></path>
             </svg>
           </button>
-        </Link>
+        </Link>}
       </div>
 
       <Explore />

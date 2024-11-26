@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp, FaUser } from "react-icons/fa";
 
-function PassengerSelector() {
+function PassengerSelector({ updatePassenger }) {
   const [isOpen, setIsOpen] = useState(false);
   const [counts, setCounts] = useState({
-    adults: 3,
-    children: 2,
-    infantsInSeat: 1,
-    infantsOnLap: 2,
+    adults: 1,
+    children: 0,
+    infants: 0
   });
 
   const increment = (key) => {
     setCounts({ ...counts, [key]: counts[key] + 1 });
+    updatePassenger({ ...counts, [key]: counts[key] + 1 })
   };
 
   const decrement = (key) => {
     if (counts[key] > 0) {
       setCounts({ ...counts, [key]: counts[key] - 1 });
+      updatePassenger({ ...counts, [key]: counts[key] - 1 })
     }
   };
 
@@ -87,53 +88,31 @@ function PassengerSelector() {
             <div className="flex justify-between items-center">
               <div>
                 <p className="font-medium text-gray-800">Infants</p>
-                <p className="text-gray-400 text-sm">In seat</p>
+                <p className="text-gray-400 text-sm">Aged 0-2</p>
               </div>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => decrement("infantsInSeat")}
+                  onClick={() => decrement("infants")}
                   className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-blue-500 font-bold"
                 >
                   -
                 </button>
-                <span>{counts.infantsInSeat}</span>
+                <span>{counts.infants}</span>
                 <button
-                  onClick={() => increment("infantsInSeat")}
+                  onClick={() => increment("infants")}
                   className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-blue-500 font-bold"
                 >
                   +
                 </button>
-              </div>
+              
             </div>
-
-            {/* Infants (On Lap) */}
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium text-gray-800">Infants</p>
-                <p className="text-gray-400 text-sm">On lap</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => decrement("infantsOnLap")}
-                  className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-blue-500 font-bold"
-                >
-                  -
-                </button>
-                <span>{counts.infantsOnLap}</span>
-                <button
-                  onClick={() => increment("infantsOnLap")}
-                  className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-blue-500 font-bold"
-                >
-                  +
-                </button>
-              </div>
             </div>
           </div>
 
           {/* Footer */}
           <div className="flex justify-between border-t p-4">
-            <button className="text-blue-500">Cancel</button>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+            <button className="text-blue-500" onClick={() => setIsOpen(false)}>Cancel</button>
+            <button onClick={() => setIsOpen(false)} className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Done
             </button>
           </div>

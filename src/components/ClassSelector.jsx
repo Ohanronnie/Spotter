@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const ClassSelector = () => {
+const ClassSelector = ({ updateClass }) => {
   const [selectedOption, setSelectedOption] = useState("Economy");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,6 +11,7 @@ const ClassSelector = () => {
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    updateClass(option);
     setIsOpen(false);
   };
   return (

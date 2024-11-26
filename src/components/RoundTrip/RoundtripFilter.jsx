@@ -2,11 +2,11 @@ import React from "react";
 import RoundtripCitySearch from "./RoundtripCitySearch";
 import RoundtripDatePicker from "./RoundtripDatePicker";
 
-const MultiCityFilters = () => {
+const MultiCityFilters = ({ changeDate, chanegCity }) => {
   return (
     <div className="lg:inline-flex lg:flex-row flex-col gap-4 w-full">
-      <RoundtripCitySearch />
-      <RoundtripDatePicker />
+      <RoundtripCitySearch changeCity={chanegCity}/>
+      <RoundtripDatePicker changeDate={changeDate}/>
     </div>
   );
 };
