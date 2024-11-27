@@ -10,7 +10,7 @@ const RoundtripDatePicker = ({ changeDate }) => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
-    changeDate(startDate, endDate)
+    changeDate(startDate, endDate);
   };
 
   return (

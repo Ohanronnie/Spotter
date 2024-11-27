@@ -11,7 +11,7 @@ const MulticityDatepicker = ({ changeDate }) => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
-    changeDate(startDate)
+    changeDate(startDate);
   };
 
   return (

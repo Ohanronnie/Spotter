@@ -20,13 +20,13 @@ export const MultiCitySearch = ({ changeCity }) => {
 
   const [inputValueFrom, setInputValueFrom] = useState(null);
   const [inputValueTo, setInputValueTo] = useState(null);
-  useEffect( ()=>{
-    changeCity({ from: inputValueFrom, to: inputValueTo})
-  },[inputValueFrom, inputValueTo]);
+  useEffect(() => {
+    changeCity({ from: inputValueFrom, to: inputValueTo });
+  }, [inputValueFrom, inputValueTo]);
   const handleInputChangeFrom = (e) => {
     const input = e.target.value;
     setInputValueFrom(input);
-   // changeCity({ from: input, to: inputValueTo})
+    // changeCity({ from: input, to: inputValueTo})
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -35,14 +35,14 @@ export const MultiCitySearch = ({ changeCity }) => {
 
   const handleCitySelectFrom = (city) => {
     setInputValueFrom(city.city);
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     setFilteredCitiesFrom([]);
   };
 
   const handleInputChangeTo = (e) => {
     const input = e.target.value;
     setInputValueTo(input);
- //   changeCity({ from: inputValueFrom, to: input});
+    //   changeCity({ from: inputValueFrom, to: input});
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -51,17 +51,16 @@ export const MultiCitySearch = ({ changeCity }) => {
 
   const handleCitySelectTo = (city) => {
     setInputValueTo(city.city);
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     setFilteredCitiesTo([]);
   };
 
   const handleSwipe = () => {
     const temp = inputValueFrom;
-    
-   // changeCity({ from: inputValueTo, to: temp})
+
+    // changeCity({ from: inputValueTo, to: temp})
     setInputValueFrom(inputValueTo);
     setInputValueTo(temp);
-    
   };
 
   return (

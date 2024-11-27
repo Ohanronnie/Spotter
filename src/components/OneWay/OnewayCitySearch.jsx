@@ -20,13 +20,13 @@ export const OnewayCitySearch = ({ changeCity }) => {
 
   const [inputValueFrom, setInputValueFrom] = useState(null);
   const [inputValueTo, setInputValueTo] = useState(null);
-  useEffect( ()=>{
-    changeCity({ from: inputValueFrom, to: inputValueTo})
-  },[inputValueFrom, inputValueTo]);
+  useEffect(() => {
+    changeCity({ from: inputValueFrom, to: inputValueTo });
+  }, [inputValueFrom, inputValueTo]);
   const handleInputChangeFrom = (e) => {
     const input = e.target.value;
     setInputValueFrom(input);
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -41,8 +41,8 @@ export const OnewayCitySearch = ({ changeCity }) => {
   const handleInputChangeTo = (e) => {
     const input = e.target.value;
     setInputValueTo(input);
-    
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -56,11 +56,10 @@ export const OnewayCitySearch = ({ changeCity }) => {
 
   const handleSwipe = () => {
     const temp = inputValueFrom;
-    
-   // changeCity({ from: inputValueTo, to: temp})
+
+    // changeCity({ from: inputValueTo, to: temp})
     setInputValueFrom(inputValueTo);
     setInputValueTo(temp);
-    
   };
 
   return (

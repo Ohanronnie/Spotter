@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoMdAirplane, IoMdSwap } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
 
-export const RoundtripCitySearch = ({ changeCity}) => {
+export const RoundtripCitySearch = ({ changeCity }) => {
   const [cities, setCities] = useState([
     { city: "Brisbane", code: "BNE", country: "Australia" },
     { city: "Bali (Denpasar)", code: "DPS", country: "Indonesia" },
@@ -20,14 +20,14 @@ export const RoundtripCitySearch = ({ changeCity}) => {
 
   const [inputValueFrom, setInputValueFrom] = useState(null);
   const [inputValueTo, setInputValueTo] = useState(null);
-  useEffect( ()=>{
-    changeCity({ from: inputValueFrom, to: inputValueTo})
-  },[inputValueFrom, inputValueTo]);
+  useEffect(() => {
+    changeCity({ from: inputValueFrom, to: inputValueTo });
+  }, [inputValueFrom, inputValueTo]);
   const handleInputChangeFrom = (e) => {
     const input = e.target.value;
     setInputValueFrom(input);
-    
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -42,8 +42,8 @@ export const RoundtripCitySearch = ({ changeCity}) => {
   const handleInputChangeTo = (e) => {
     const input = e.target.value;
     setInputValueTo(input);
-    
-   // changeCity({ from: inputValueFrom, to: inputValueTo})
+
+    // changeCity({ from: inputValueFrom, to: inputValueTo})
     const filtered = cities.filter((city) =>
       city.city.toLowerCase().startsWith(input.toLowerCase())
     );
@@ -57,11 +57,10 @@ export const RoundtripCitySearch = ({ changeCity}) => {
 
   const handleSwipe = () => {
     const temp = inputValueFrom;
-    
-   // changeCity({ from: inputValueTo, to: temp})
+
+    // changeCity({ from: inputValueTo, to: temp})
     setInputValueFrom(inputValueTo);
     setInputValueTo(temp);
-    
   };
 
   return (

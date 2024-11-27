@@ -6,18 +6,18 @@ function PassengerSelector({ updatePassenger }) {
   const [counts, setCounts] = useState({
     adults: 1,
     children: 0,
-    infants: 0
+    infants: 0,
   });
 
   const increment = (key) => {
     setCounts({ ...counts, [key]: counts[key] + 1 });
-    updatePassenger({ ...counts, [key]: counts[key] + 1 })
+    updatePassenger({ ...counts, [key]: counts[key] + 1 });
   };
 
   const decrement = (key) => {
     if (counts[key] > 0) {
       setCounts({ ...counts, [key]: counts[key] - 1 });
-      updatePassenger({ ...counts, [key]: counts[key] - 1 })
+      updatePassenger({ ...counts, [key]: counts[key] - 1 });
     }
   };
 
@@ -104,15 +104,19 @@ function PassengerSelector({ updatePassenger }) {
                 >
                   +
                 </button>
-              
-            </div>
+              </div>
             </div>
           </div>
 
           {/* Footer */}
           <div className="flex justify-between border-t p-4">
-            <button className="text-blue-500" onClick={() => setIsOpen(false)}>Cancel</button>
-            <button onClick={() => setIsOpen(false)} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+            <button className="text-blue-500" onClick={() => setIsOpen(false)}>
+              Cancel
+            </button>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
               Done
             </button>
           </div>
